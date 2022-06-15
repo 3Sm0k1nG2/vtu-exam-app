@@ -2,6 +2,8 @@
 using AppRestaurant.Models;
 using Microsoft.Data.SqlClient;
 using System.Data.SqlTypes;
+using System.Text;
+using AppRestaurant.Models.NewFolder;
 
 namespace AppRestaurant.Data
 {
@@ -105,11 +107,85 @@ namespace AppRestaurant.Data
                 Console.WriteLine(e.ToString());
             }
         }
-        public List<OrderModel> GetAll;
-        public List<OrderModel> GetAllByUserId;
-        public List<OrderModel> GetAllByUserEmail;
+        public List<OrderModel> GetAll(FilterModel? filters)
+        {
+            List<OrderModel> orders =  new List<OrderModel>();
+            int? userId = null;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    connection.Open();
+                    StringBuilder sqlQuery = new StringBuilder("SELECT Id, UserId, AddressId, DishesIdsAsStr, TimePurchased, Status, Cost FROM Orders");
+                    
+                    if(filters != null) 
+                    {
+                        if (filters.Id != null) 
+                        {
+                            userId = filters.Id;
+                        }
+                        else if (filters.Email != null)
+                        {
+                            UsersDB usersDb = new UsersDB();
+                            userId = usersDb.GetId(filters.Email);
+                        }
+
+                        if (userId == -1)
+                            return orders;
+
+                        sqlQuery.Append(" WHERE UserId=@userId");
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery.ToString(), connection))
+                    {
+                        if (userId != null)
+                            cmd.Parameters.AddWithValue("userId", userId);
+                        
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                OrderModel model;
+
+                                if (reader.GetString(5) == "successful")
+                                {
+                                    model = new OrderModel(reader.GetInt32(0),
+                                        reader.GetInt32(1),
+                                        reader.GetInt32(2),
+                                        reader.GetString(3),
+                                        reader.GetDateTime(4),
+                                        reader.GetString(5),
+                                        reader.GetDecimal(6)
+                                    );
+                                } else
+                                {
+                                    model = new OrderModel(reader.GetInt32(0),
+                                        reader.GetInt32(1),
+                                        reader.GetString(3),
+                                        reader.GetString(5),
+                                        reader.GetDecimal(6)
+                                    );
+                                }
+
+                                orders.Add(model);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+
+            return orders;
+        }
+
         public OrderModel GetOne(int id)
         {
+            OrderModel? model = null;
+
             try
             {
                 using (SqlConnection connection = new SqlConnection(sqlBuilder.ConnectionString))
@@ -125,7 +201,7 @@ namespace AppRestaurant.Data
                         {
                             while (reader.Read())
                             {
-                                OrderModel model;
+                                
 
                                 if (reader.GetString(5) == "successful")
                                 {
@@ -157,12 +233,9 @@ namespace AppRestaurant.Data
                 Console.WriteLine(e.ToString());
             }
 
-            return null;
+            return model;
         }
 
-        public List<OrderModel> DeleteOne;
-        public List<OrderModel> DeleteAllByUserId;
-        public List<OrderModel> DeleteAllByUserEmail;
         public void Update(OrderModel model)
         {
             try
@@ -190,6 +263,40 @@ namespace AppRestaurant.Data
                 Console.WriteLine(e.ToString());
             }
 
+        }
+
+        public bool Delete(int id)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    connection.Open();
+                    String sqlQuery = @"DELETE FROM Orders
+                        WHERE Id=@id";
+
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("id", id);
+                        command.ExecuteNonQuery();
+
+                        using (SqlDataReader reader = command.ExecuteReader())
+                        {
+                            if (reader.RecordsAffected == 1)
+                                return true;
+                            else if (reader.RecordsAffected == 0)
+                                return false;
+                            else
+                                throw new Exception("Negative records affected or more than two");
+                        }
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+                return false;
+            }
         }
     }
 }

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 
 using System.Diagnostics;
+using AppRestaurant.Models.NewFolder;
 
 // user is able to make request to other properties. Index blocks only for itself
 // cheated solution, return nothing is user is not admin,
@@ -128,7 +129,62 @@ namespace AppRestaurant.Controllers
         // To implement
         // Orders CRUD
 
-        public List<OrderModel> GetAllOrders() { return null; }
-        public void Delete() { }
+        public List<OrderModel> GetOrders() 
+        {
+            if (HttpContext.Session.GetString("isAdmin") != "true")
+                return null;
+
+            FilterModel filters = new FilterModel();
+
+            string result = new StreamReader(Request.Body).ReadToEndAsync().Result;
+
+            int id;
+
+            if (int.TryParse(result, out id))
+                filters.Id = id;
+            else if (result.Contains('@'))
+                filters.Email = result;
+            else
+                filters = null;
+
+            OrdersDB ordersDb = new OrdersDB();
+            List<OrderModel>? orders = ordersDb.GetAll(filters);
+
+            return orders;
+        }
+        public OrderModel GetOrder() 
+        {
+            if (HttpContext.Session.GetString("isAdmin") != "true")
+                return null;
+
+            OrdersDB ordersDb = new OrdersDB();
+            OrderModel? order = null;
+
+            int id;
+            string result = new StreamReader(Request.Body).ReadToEndAsync().Result;
+
+            if (int.TryParse(result, out id))
+            {
+                order = ordersDb.GetOne(id);
+            }
+
+            return order;
+        }
+
+        public void DeleteOrder()
+        {
+            if (HttpContext.Session.GetString("isAdmin") != "true")
+                return;
+
+            OrdersDB ordersDb = new OrdersDB();
+
+            int id;
+            string result = new StreamReader(Request.Body).ReadToEndAsync().Result;
+
+            if (int.TryParse(result, out id))
+            {
+                ordersDb.Delete(id);
+            }
+        }
     }
 }

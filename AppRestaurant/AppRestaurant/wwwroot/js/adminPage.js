@@ -26,7 +26,7 @@ const dbsActions = {
             return fetch('/admin/GetUsers')
                 .then(res => res.json())
                 .then(data => data)
-                .catch(err => err);
+                .catch(err => null);
         },
         getOneByEmail: () => {
             let email = prompt('Users: Enter email');
@@ -43,11 +43,17 @@ const dbsActions = {
             })
                 .then(res => res.json())
                 .then(data => [data])
-                .catch(err => err);
+                .catch(err => null);
         },
         getOneById: (id) => {
-            if (!id)
-                id = Number(prompt('Users: Enter id'));
+            if (!id) {
+                id = prompt('Users: Enter id');
+            }
+
+            if (id === null || id === '')
+                return;
+
+            id = Number(id);
 
             if (isNaN(id))
                 return;
@@ -64,7 +70,7 @@ const dbsActions = {
             })
                 .then(res => res.json())
                 .then(data => [data])
-                .catch(err => err);
+                .catch(err => null);
         },
         updateByEmail: () => {
             let email = prompt('Users: Enter email');
@@ -75,8 +81,14 @@ const dbsActions = {
             // redirect to update page for users ( or make one update page with dynamic fields)
         },
         updateById: (id) => {
-            if (!id)
-                id = Number(prompt('Users: Enter id'));
+            if (!id) {
+                id = prompt('Users: Enter id');
+            }
+
+            if (id === null || id === '')
+                return;
+
+            id = Number(id);
 
             if (isNaN(id))
                 return;
@@ -103,11 +115,17 @@ const dbsActions = {
                 body: email
             })
                 .then(result => renderAllRecords())
-                .catch(err => err);
+                .catch(err => null);
         },
         deleteById: (id) => {
-            if (!id)
-                id = Number(prompt('Users: Enter id'));
+            if (!id) {
+                id = prompt('Users: Enter id');
+            }
+
+            if (id === null || id === '')
+                return;
+
+            id = Number(id);
 
             if (isNaN(id))
                 return;
@@ -126,7 +144,7 @@ const dbsActions = {
                 body: id
             })
                 .then(result => renderAllRecords())
-                .catch(err => err);
+                .catch(err => null);
         }
     },
     dishes: {
@@ -134,10 +152,17 @@ const dbsActions = {
             return fetch('/admin/GetDishes')
                 .then(res => res.json())
                 .then(data => data)
-                .catch(err => err);
+                .catch(err => null);
         },
-        getOne: () => {
-            let id = Number(prompt('Dishes: Enter id'));
+        getOne: (id) => {
+            if (!id) {
+                id = prompt('Dishes: Enter id');
+            }
+
+            if (id === null || id === '')
+                return;
+
+            id = Number(id);
 
             if (isNaN(id))
                 return;
@@ -154,15 +179,21 @@ const dbsActions = {
             })
                 .then(res => res.json())
                 .then(data => [data])
-                .catch(err => err);
+                .catch(err => null);
 
         },
         create: () => {
             return window.location.pathname = '/dish/create';
         },
         update: (id) => {
-            if (!id)
-                id = Number(prompt('Dishes: Enter id'));
+            if (!id) {
+                id = prompt('Dishes: Enter id');
+            }
+
+            if (id === null || id === '')
+                return;
+
+            id = Number(id);
 
             if (isNaN(id))
                 return;
@@ -173,12 +204,18 @@ const dbsActions = {
             return window.location.pathname = '/dish/update/' + id;
         },
 
-        delete: (id, callback) => {
-            if (!id)
-                id = Number(prompt('Dishes: Enter id'));
+        delete: (id) => {
+            if (!id) {
+                id = prompt('Dishes: Enter id');
+            }
+
+            if (id === null || id === '')
+                return;
+
+            id = Number(id);
 
             if (isNaN(id))
-                return false;
+                return;
 
             if (!Number.isInteger(id))
                 return false;
@@ -193,19 +230,112 @@ const dbsActions = {
                 },
                 body: id
             })
-                .then(result => renderAllRecords())
-                .catch(err => err);
+                .then(() => renderAllRecords())
+                .catch(err => null);
         },
 
     }, // To implement
     orders: {
-        getAll: () => { },
-        getAllByUserId:() => { },
-        getAllByUserEmail:() => { },
-        getOne:() => { },
-        deleteOne:() => { },
-        deleteAllByUserId:() => { },
-        deleteAllByUserEmail:() => { },
+        getAll: () => {
+            return fetch('/admin/GetOrders')
+                .then(res => res.json())
+                .then(data => data)
+                .catch(err => null);
+        },
+        getAllByUserId: () => {
+            if (!id) {
+                id = prompt('Orders: Enter user id');
+            }
+
+            if (id === null || id === '')
+                return;
+
+            id = Number(id);
+
+            if (isNaN(id))
+                return;
+
+            if (!Number.isInteger(userId))
+                return;
+
+            return fetch('/admin/GetOrders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: userId
+            })
+                .then(res => res.json())
+                .then(data => data)
+                .catch(err => null);
+        },
+        getAllByUserEmail: () => {
+            let email = prompt('Orders: Enter user email');
+
+            if (!email.includes('@'))
+                return;
+
+            return fetch('/admin/GetOrders', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: email
+            })
+                .then(res => res.json())
+                .then(data => data)
+                .catch(err => null);
+        },
+        getOne: (id) => {
+            if (!id) {
+                id = prompt('Orders: Enter id');
+            }
+
+            if (id === null || id === '')
+                return;
+
+            id = Number(id);
+
+            if (isNaN(id))
+                return;
+
+            if (!Number.isInteger(id))
+                return;
+
+            return fetch('/admin/GetOrder', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: id
+            })
+                .then(res => res.json())
+                .then(data => [data])
+                .catch(err => null)
+        },
+        deleteById: (id) => {
+            if (!id)
+                id = Number(prompt('Orders: Enter id'));
+
+            if (isNaN(id))
+                return false;
+
+            if (!Number.isInteger(id))
+                return false;
+
+            if (!confirm(`Do you really want to delete Order with ID ${id}?`))
+                return false;
+
+            return fetch(`/admin/DeleteOrder`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'text/plain'
+                },
+                body: id
+            })
+                .then(() => renderAllRecords(false))
+                .catch(err => null);
+        },
     }
 }
 
@@ -221,12 +351,19 @@ toolsHTMLElement.addEventListener('click', (e) => {
 
     actions = dbsActions[e.target.parentElement.parentElement.id];
 
-    actions[e.target.dataset.action]()
-        .then(data => {
-            let [keys, records] = processData(data);
-            renderResults(keys, records);
-        })
-        .catch(err => console.error(err))
+    let action = actions[e.target.dataset.action]();
+
+    if (action == null)
+        return;
+
+    action.then(data => {
+        if (data == null)
+            return;
+
+        let [keys, records] = processData(data);
+        renderResults(keys, records, e.target.parentElement.parentElement.id !== 'orders');
+    })
+    .catch(err => err)
 })
 
 resultElement.addEventListener('click', async (e) => {
@@ -247,15 +384,15 @@ resultElement.addEventListener('click', async (e) => {
     }
 })
 
-function renderAllRecords(data) {
+function renderAllRecords(renderUpdate) {
     actions.getAll()
         .then(data => {
             let [keys, values] = processData(data);
-            renderResults(keys, values);
+            renderResults(keys, values, renderUpdate);
         })
 }
 
-function renderResults(keys, data) {
+function renderResults(keys, data, renderUpdate) {
     keys = keys.map(x => x[0].toUpperCase() + x.slice(1,))
     keys.push('Actions');
 
@@ -269,7 +406,7 @@ function renderResults(keys, data) {
             <tbody>
                 ${data.map(x => {
         xValues = Object.values(x);
-        xValues.push(renderElements.actionButtons);
+        xValues.push(renderElements.actionButtons(renderUpdate));
 
         return renderElements.tr(xValues.map(y => renderElements.td(y === null ? '' : y)).join(''))
     }).join('')
@@ -307,5 +444,5 @@ const renderElements = {
     th: (data) => `<th>${data}</th>`,
     td: (data) => `<td>${data}</td>`,
     tr: (data) => `<tr>${data}</tr>`,
-    actionButtons: '<button class="record-action btn btn-warning" style="max-width: 5rem; width: 5rem">Update</button><button class="record-action btn btn-danger" style="max-width: 5rem; width: 5rem">Delete</button>'
+    actionButtons: (renderUpdate = true) => `${renderUpdate ? '<button class="record-action btn btn-warning" style="max-width: 5rem; width: 5rem">Update</button>' : ''}<button class="record-action btn btn-danger" style="max-width: 5rem; width: 5rem">Delete</button>`
 }

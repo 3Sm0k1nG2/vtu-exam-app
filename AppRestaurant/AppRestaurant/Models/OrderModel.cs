@@ -18,7 +18,7 @@
             Cost = cost;
         }
 
-        public OrderModel(int id, int addressId, int userId, string dishesIdsString, DateTime timePurchased, string status, decimal cost)
+        public OrderModel(int id, int userId, int addressId, string dishesIdsString, DateTime timePurchased, string status, decimal cost)
         {
             Id = id;
             AddressId = addressId;
@@ -30,7 +30,7 @@
         }
 
         public int Id { get; set; }
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; } = null;
         public int UserId { get; set; }
         public string DishesIdsString { get; set; }
         public List<int> DishesIds { get; set; }

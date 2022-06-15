@@ -2947,11 +2947,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\VTU-Programming\\02.Semester 2nd\\C# .NET\\EXAM\\vtu-exam-app\\AppRestaurant\\AppRestaurant\\AppRestaurant.csproj",
+      "projectUniqueName": "D:\\VTU-Programming\\02.Semester 2nd\\C# .NET\\EXAM\\AppRestaurant\\AppRestaurant\\AppRestaurant.csproj",
       "projectName": "AppRestaurant",
-      "projectPath": "D:\\VTU-Programming\\02.Semester 2nd\\C# .NET\\EXAM\\vtu-exam-app\\AppRestaurant\\AppRestaurant\\AppRestaurant.csproj",
+      "projectPath": "D:\\VTU-Programming\\02.Semester 2nd\\C# .NET\\EXAM\\AppRestaurant\\AppRestaurant\\AppRestaurant.csproj",
       "packagesPath": "C:\\Users\\3Sm0k\\.nuget\\packages\\",
-      "outputPath": "D:\\VTU-Programming\\02.Semester 2nd\\C# .NET\\EXAM\\vtu-exam-app\\AppRestaurant\\AppRestaurant\\obj\\",
+      "outputPath": "D:\\VTU-Programming\\02.Semester 2nd\\C# .NET\\EXAM\\AppRestaurant\\AppRestaurant\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\3Sm0k\\AppData\\Roaming\\NuGet\\NuGet.Config",

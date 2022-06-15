@@ -34,12 +34,12 @@ namespace AppRestaurant.Controllers
 
         public IActionResult Details(int id)
         {
-            DishesDb db = new DishesDb();
-            DishModel? model = db.GetOne(id);
+            DishesDb dishesDb = new DishesDb();
+            DishModel? model = dishesDb.GetOne(id);
 
             if (model == null)
             {
-                return Redirect("/menu");
+                return View("Index");
             }
 
             return View(model);

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "byIeXDBDYxFsHM8JD+Vnx/PngbA1+SRRaUvob+mS7AE8AOZe72INf4l05n50GsuPhEKnR/2N6fTjigJ4LUJ48g==",
+  "dgSpecHash": "co8uOynZl5X8zFHiXQUGI0kAxZBkq2fKywCsLyzWdmmNpfb1+VWTZoy7VB+emZt57A7d21LpbvSSq00cuB13Bg==",
   "success": true,
-  "projectFilePath": "D:\\VTU-Programming\\02.Semester 2nd\\C# .NET\\EXAM\\vtu-exam-app\\AppRestaurant\\AppRestaurant\\AppRestaurant.csproj",
+  "projectFilePath": "D:\\VTU-Programming\\02.Semester 2nd\\C# .NET\\EXAM\\AppRestaurant\\AppRestaurant\\AppRestaurant.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\3Sm0k\\.nuget\\packages\\azure.core\\1.6.0\\azure.core.1.6.0.nupkg.sha512",
     "C:\\Users\\3Sm0k\\.nuget\\packages\\azure.identity\\1.3.0\\azure.identity.1.3.0.nupkg.sha512",

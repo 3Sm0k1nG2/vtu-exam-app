@@ -174,8 +174,12 @@ namespace AppRestaurant.Data
                         command.Parameters.AddWithValue("name", model.Name);
                         command.Parameters.AddWithValue("grams", model.Grams);
                         command.Parameters.AddWithValue("price", model.Price);
-                        command.Parameters.AddWithValue("description", model.Description);
                         command.Parameters.AddWithValue("imgUrl", model.ImageUrl);
+
+                        if (model.Description == null)
+                            command.Parameters.AddWithValue("description", "");
+                        else
+                            command.Parameters.AddWithValue("description", model.Description);
 
                         command.ExecuteNonQuery();
                     }
