@@ -1,0 +1,33 @@
+﻿@model DishModel
+@{
+    ViewData["Title"] = "Details Page";
+}
+
+@section AddToHead{
+    <link type="text/css" rel="stylesheet" href="~/css/menuPage.css"></link>
+}
+
+@section AddToBottom{
+    <script src="~/js/menuPage.js" asp-append-version="true"></script>
+}
+
+<div class="card mb-3 dish" style="padding:0.5%">
+    <div class="row g-0">
+        <div class="col-md-4">
+            <img src="@Model.ImageUrl" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+                <h5 class="card-title">@Model.Name</h5>
+                <p class="card-text">@Model.Description</p>
+                <p class="card-text"><small class="text-muted">@Model.Grams грама</small></p>
+                <p class="card-text"><strong>@Model.Price лв.</strong></p>
+                <div class="col">
+                    <!--Make it retutn the Id (18:00 02/06/2022): Not sending request-->
+                    <a class="btn btn-primary" onclick="history.back()">Назад</a>
+                    <a href="/cart/add/@Model.Id" class="btn btn-primary">Добави в кошница</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

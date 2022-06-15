@@ -1,0 +1,58 @@
+﻿@model dynamic
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    decimal totalPrice = 0;
+}
+
+
+@section AddToBottom{
+    <script src="~/js/cartOrder.js" asp-append-version="true"></script>
+}
+
+<h1 class="text-center"> Информация относно поръчката </h1>
+
+<h2>Потребител</h2>
+<ul style="list-style-type: none;">
+@if (Model.user.Nickname != null)
+{
+    <li>Прякор: @Model.user.Nickname</li>
+}
+    <li>Имейл: <span id="email">@Model.user.Email</span></li>
+</ul>
+<h2>Храна</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <td>Бройки</td>
+            <td>Ястие</td>
+            <td>Грамаж</td>
+            <td>Стойност</td>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var dish in Model.dishes)
+        {
+            totalPrice += (dish[1].Price * dish[0]);
+            <tr data-dishId="@dish[1].Id">
+                <td>@dish[0]</td>
+                <td>@dish[1].Name</td>
+                <td>@(dish[1].Grams)гр.</td>
+                <td>@(dish[1].Price*dish[0])лв.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<div class="row flex-d">
+    <div class="col d-block w-100">
+        <h2> Крайна цена: @String.Format("{0:0.00}лв.", totalPrice == 0 ? 0 : totalPrice)</h2>
+        <h3> С доставка <span id="final-cost">@String.Format("{0:0.00}", totalPrice == 0 ? 0 : totalPrice + 10)</span>лв.</h3>
+    </div>
+    <div class="col text-end d-block w-100">
+        <h2> <button class="btn btn-primary" onclick="finalize()">Поръчай</button> </h2>
+        <h6> Поръчките се плащат чрез наложен платеж.</h6>
+        <h6> Доставка: +10 лева</h6>
+    </div>
+</div>

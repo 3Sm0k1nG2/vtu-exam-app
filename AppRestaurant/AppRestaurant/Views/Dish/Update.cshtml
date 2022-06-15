@@ -1,0 +1,38 @@
+﻿@model DishModel
+@{
+    ViewData["Title"] = "Update Page";
+}
+
+<form action="/dish/update" method="POST" enctype="application/x-www-form-urlencoded">
+        <div class="mb-3">
+        <label for="Id" class="form-label">ID</label>
+        <input type="text" name="Id" class="form-control" value="@Model.Id" readonly>
+    </div>
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <input type="text" name="Name" class="form-control" value="@Model.Name" required>
+    </div>
+    <div class="mb-3">
+        <label for="Grams" class="form-label">Grams</label>
+        <input type="number" name="Grams" class="form-control" value="@Model.Grams" required>
+    </div>
+    <div class="mb-3">
+        <label for="Price" class="form-label">Price</label>
+        <input type="number" step="0.01" name="Price" class="form-control" value="@Model.Price" required">
+    </div>
+        <div class="mb-3">
+        <label for="ImageUrl" class="form-label">Image Url</label>
+        <input type="text" name="ImageUrl" class="form-control" value="@Model.ImageUrl" required>
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="imgAsUrl">
+        <label class="form-check-label" for="imgAsUrl">Image is URL</label>
+    </div>
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <input type="text" name="Description" class="form-control" value="@Model.Description">
+    </div>
+    <button type="submit" class="btn btn-primary">Update</button>
+</form>
+
+<script src="~/js/createDish.js" asp-append-version="true"></script>

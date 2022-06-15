@@ -1,0 +1,24 @@
+﻿@model int
+
+<h1 class="text-center">Информация относно доставката. Адрес за доставка</h1>
+
+<form action="/cart/final" method="post" enctype="application/x-www-form-urlencoded">
+    <input name="OrderId" value="@Model.ToString()" readonly hidden />
+    <div class="mb-3">
+        <label for="Phone" class="form-label">Тел. номер</label>
+        <input id="phoneField" type="tel" maxlength="12" class="form-control" name="Phone" required>
+    </div>
+    <div class="mb-3">
+        <label for="City" class="form-label">Град</label>
+        <input type="text" class="form-control" name="City" required>
+    </div>
+    <div class="mb-3">
+        <label for="PostCode" class="form-label">Пощенски код</label>
+        <input type="text" class="form-control" name="PostCode" id="password" required>
+    </div>
+    <div class="mb-3">
+        <label for="Address" class="form-label">Адрес</label>
+        <input type="text" class="form-control" name="Street" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Завърши поръчка</button>
+</form>

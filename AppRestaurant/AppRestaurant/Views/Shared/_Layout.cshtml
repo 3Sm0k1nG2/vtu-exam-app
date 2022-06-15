@@ -1,0 +1,110 @@
+﻿@inject Microsoft.AspNetCore.Http.IHttpContextAccessor HttpContextAccessor
+
+@{
+    bool isLogged = false;
+
+    if (HttpContextAccessor.HttpContext.Session.GetString("Nickname") != null)
+        isLogged = true;
+
+    bool isAdmin = false;
+    if (HttpContextAccessor.HttpContext.Session.GetString("isAdmin") == "true")
+        isAdmin = true;
+
+    bool isEmptyCart = true;
+    if (HttpContextAccessor.HttpContext.Session.GetString("isEmptyCart") == "false")
+        isEmptyCart = false;
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - AppRestaurant</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/AppRestaurant.styles.css" asp-append-version="true" />
+    @if (IsSectionDefined("AddToHead"))
+    {
+        @RenderSection("AddToHead", required: false)
+    }
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Ресторант</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page" href="/menu">Меню</a>
+                        </li>
+
+                        @if (isLogged)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/logout">Излез</a>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/register">Регистрация</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" aria-current="page" href="/login">Вход</a>
+                            </li>
+                        }
+
+                        @if (isAdmin)
+                        {
+                            <li class="nav-item d-flex me-2">
+                                <a class="nav-link disabled">|ADMIN|</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Tools
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="/dish/create">Create Dish</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="/admin">Something else here</a></li>
+
+                                </ul>
+                            </li>
+                        }
+                    </ul>
+
+                    <div id="cart" style="width:30px; height:30px">
+                        <a href="/cart" style="width:1%; height:1%">
+                            <img class="img-fluid" src="@(isEmptyCart ? "/images/cart.svg" : "/images/cart-plus.svg")" alt="Cart SVG" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2022 - Ресторант - <a asp-area="" asp-controller="Home" asp-action="Privacy">Поверителност</a>
+        </div>
+    </footer>
+    @if (IsSectionDefined("AddToBottom"))
+    {
+        @RenderSection("AddToBottom", required: false)
+    }
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

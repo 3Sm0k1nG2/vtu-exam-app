@@ -1,0 +1,41 @@
+﻿@model dynamic
+
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@section AddToBottom{
+    <script src="~/js/adminPage.js" asp-append-version="true"></script>
+}
+
+<div id="tools">
+    <label>Users Database</label>
+    <ul id="users">
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="getAll" href="/admin/GetUsers">Get all users</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="getOneByEmail">Get user by email</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="getOneById">Get user by id</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="deleteByEmail">Delete user by email</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="deleteById">Delete user by id</button></li>
+    </ul>
+    <label>Dishes Database</label>
+    <ul id="dishes">
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="getAll">Get all dishes</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="getOne">Get dish by id</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="delete">Delete dish by id</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="create">Create</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="update">Update</button></li>
+    </ul>
+    <label>Purchases Database</label>
+    <ul id="orders">
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="getAll">Get all purchases</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="getAllByUserId">Get all purchases of user by Id</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="getAllByEmail">Get all purchases of user by Email</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="getOne">Get purchase by id</button></li>
+        <!--Deletion of purchases may be unnecessary-->
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="deleteOne">Delete purchase by id</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="deleteByUserId">Delete all purchases of user by id</button></li>
+        <li><button class="btn btn-secondary btn-sm m-1" type="button" data-action="deleteByEmail">Delete all purchases of user by email</button></li>
+        <!--Delete if unnecessary-->
+    </ul>
+</div>
+<div id="result"></div>

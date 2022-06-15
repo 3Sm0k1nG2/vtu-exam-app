@@ -1,0 +1,4 @@
+﻿.dish a:focus {
+    transition: background-color linear 0.01s !important;
+    background-color: green !important;
+}

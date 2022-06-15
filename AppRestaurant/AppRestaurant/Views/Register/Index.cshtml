@@ -1,0 +1,39 @@
+﻿@model AppRestaurant.Models.MessageModel
+@{
+    ViewData["Title"] = "Register Page";
+}
+
+@if (Model != null)
+{
+    <div class="alert alert-@Model.alertCode" role="alert">
+        @Html.DisplayTextFor(model => model.Message)
+    </div>
+}
+<form action="/authe/reg" method="POST" enctype="application/x-www-form-urlencoded">
+    <div class="mb-3">
+        <label for="email" class="form-label">Прякор</label>
+        <input type="text" class="form-control" name="nickname" id="nickname" />
+        <small class="form-text text-muted">не е задължително</small>
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Емейл адрес*</label>
+        <input type="email" class="form-control" name="email" id="email" required
+            oninvalid="this.setCustomValidity('Моля въведете коректен имейл.')"
+            oninput="this.setCustomValidity('')">
+        <small class="form-text text-muted">трябва да съдържа @@ </small>
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Парола*</label>
+        <input type="password" class="form-control" name="password" id="password" required
+            oninvalid="this.setCustomValidity('Моля въведете парола.')"
+            oninput="this.setCustomValidity('')">
+        <small class="form-text text-muted">трябва да съдържа поне 8 символа</small>
+    </div>
+    <div class="mb-3">
+        <label for="re-password" class="form-label">Повтори парола*</label>
+        <input type="password" class="form-control" name="repass" id="re-password" required
+            oninvalid="this.setCustomValidity('Моля въведете парола.')"
+            oninput="this.setCustomValidity('')">
+    </div>
+    <button type="submit" class="btn btn-primary">Регистрирай</button>
+</form>

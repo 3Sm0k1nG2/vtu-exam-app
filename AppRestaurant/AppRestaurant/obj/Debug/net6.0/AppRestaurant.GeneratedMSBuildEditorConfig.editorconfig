@@ -1,0 +1,84 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = AppRestaurant
+build_property.RootNamespace = AppRestaurant
+build_property.ProjectDir = D:\VTU-Programming\02.Semester 2nd\C# .NET\EXAM\vtu-exam-app\AppRestaurant\AppRestaurant\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = 
+build_property.MSBuildProjectDirectory = D:\VTU-Programming\02.Semester 2nd\C# .NET\EXAM\vtu-exam-app\AppRestaurant\AppRestaurant
+build_property._RazorSourceGeneratorDebug = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Cart/Finalize.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxGaW5hbGl6ZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Cart/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Cart/ThankYou.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2FydFxUaGFua1lvdS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Dish/Create.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlzaFxDcmVhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Dish/Update.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRGlzaFxVcGRhdGUuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Login/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTG9naW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Menu/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Menu/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTWVudVxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Register/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmVnaXN0ZXJcSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[D:/VTU-Programming/02.Semester 2nd/C\# .NET/EXAM/vtu-exam-app/AppRestaurant/AppRestaurant/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-z0ia6kmp1t

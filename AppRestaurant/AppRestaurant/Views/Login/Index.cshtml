@@ -1,0 +1,26 @@
+﻿@model AppRestaurant.Models.MessageModel;
+@{
+    ViewData["Title"] = "Login Page";
+}
+
+@if (Model != null)
+{
+    <div class="alert alert-@Model.alertCode" role="alert">
+        @Html.DisplayTextFor(model => model.Message)
+    </div>
+}
+<form action="/authe/login" method="post" enctype="application/x-www-form-urlencoded">
+    <div class="mb-3">
+        <label for="email" class="form-label">Емейл адрес</label>
+        <input type="email" class="form-control" name="email" id="email" required
+            oninvalid="this.setCustomValidity('Моля въведете коректен имейл.')"
+            oninput="this.setCustomValidity('')">
+    </div>
+    <div class="mb-3">
+        <label for="password" class="form-label">Парола</label>
+        <input type="password" class="form-control" name="password" id="password" required
+            oninvalid="this.setCustomValidity('Моля въведете парола.')"
+            oninput="this.setCustomValidity('')">
+    </div>
+    <button type="submit" class="btn btn-primary">Влез</button>
+</form>
