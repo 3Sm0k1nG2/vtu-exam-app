@@ -111,41 +111,35 @@ namespace AppRestaurant.Controllers
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return null;
 
-            FilterModel filters = new FilterModel();
-
             string result = new StreamReader(Request.Body).ReadToEndAsync().Result;
 
             int id;
+            OrderService orderService = new OrderService();
 
-            if (int.TryParse(result, out id))
-                filters.Id = id;
-            else if (result.Contains('@'))
-                filters.Email = result;
-            else
-                filters = null;
+            if (!int.TryParse(result, out id))
+            {
+                if (!result.Contains('@'))
+                {
+                    return new OrderService().GetAllDetailed();
+                }
+                id = new UserService().GetId(result);
+            }
 
-            OrdersDB ordersDb = new OrdersDB();
-            List<OrderModel>? orders = ordersDb.GetAll(filters);
-
-            return orders;
+            return new OrderService().GetAllDetailed(id);
         }
         public OrderDetailedModel? GetOrderDetailed()
         {
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return null;
 
-            OrdersDB ordersDb = new OrdersDB();
-            OrderModel? order = null;
-
-            int id;
+            int orderId;
             string result = new StreamReader(Request.Body).ReadToEndAsync().Result;
 
-            if (int.TryParse(result, out id))
-            {
-                order = ordersDb.GetOne(id);
-            }
+            if (!int.TryParse(result, out orderId))
+                return null;
 
-            return order;
+            OrderService orderService = new OrderService();
+            return orderService.GetOneDetailed(orderId);
         }
 
         public void DeleteOrder()
@@ -153,15 +147,14 @@ namespace AppRestaurant.Controllers
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return;
 
-            OrdersDB ordersDb = new OrdersDB();
-
             int id;
             string result = new StreamReader(Request.Body).ReadToEndAsync().Result;
 
-            if (int.TryParse(result, out id))
-            {
-                ordersDb.Delete(id);
-            }
+            if (!int.TryParse(result, out id))
+                return;
+
+            OrderService orderService = new OrderService();
+            orderService.DeleteOne(id);
         }
     }
 }
