@@ -1,24 +1,7 @@
-﻿// Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-// for details on configuring this project to bundle and minify static web assets.
-
-// Write your JavaScript code.
 
 
-// Rewrite it to send and take request from server.
-/*
-INSERT INTO Dishes(Name, Grams, Price, Description, ImageUrl)
-VALUES(N'Печено руло от БИО Блек Ангъс с демиглас', 320, 23.90, N'Крехко месо от БИО Блек Ангъс гарнирано с заквасена сметана, хлебни кнедли и сос Демиглас.', '/images/2.jpg'),
-    (N'Котлет по Милански', 460, 15.90, N'Класическа Италианска Рецепта: Свински котлет от български фермерски прасета с хрупкава златиста панировка, гарниран с пресни пържени картофи.', '/images/3.jpg'),
-    (N'Печен джолан', 370, 19.90, N'Крехко печено свинско джоланче от български фермерски прасенца придружено от пюре от батат, глазирани моркови и печен сос.', '/images/3.jpg'),
-    (N'Пилешко руло със сос четири сирена', 370, 25.20, N'Пилешко филе пълнено със спанак, пармезан, чедър, скаморца и моцарела придружено с пюре от батат и нежен сметанов сос.', '/images/4.jpg')
-*/
 
-/*
-INSERT INTO Users (Nickname, Email, Password)
-VALUES	('DjiDji','djidji@dji','hahahaah'),
-        ('<h1>HIIII</h1>','preda@tor.ww','predatoer'),
-        ('<body>fuck</body>','pwned@bit.ch','secret')
- */
+
 
 const dbsActions = {
     users: {

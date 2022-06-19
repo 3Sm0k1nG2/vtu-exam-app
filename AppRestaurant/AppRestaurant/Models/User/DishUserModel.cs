@@ -1,6 +1,4 @@
-﻿using AppRestaurant.Models.Forms;
-
-namespace AppRestaurant.Models.User
+﻿namespace AppRestaurant.Models.User
 {
     public class DishUserModel
     {

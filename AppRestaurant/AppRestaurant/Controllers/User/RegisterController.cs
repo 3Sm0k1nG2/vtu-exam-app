@@ -7,8 +7,6 @@ namespace AppRestaurant.Controllers.User
     {
         public IActionResult Index()
         {
-            Console.WriteLine(TempData["status"]);
-
             switch (TempData["status"])
             {
                 case "not-verified":
