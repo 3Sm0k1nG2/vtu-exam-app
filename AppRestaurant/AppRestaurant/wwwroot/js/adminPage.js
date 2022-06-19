@@ -1,7 +1,34 @@
+﻿const renderElements = {
+    th: (data) => `<th>${data}</th>`,
+    td: (data) => `<td>${data}</td>`,
+    tr: (data) => `<tr>${data}</tr>`,
+    actionButtons: (renderUpdate = true) => `${renderUpdate ? '<button class="record-action btn btn-warning" style="max-width: 5rem; width: 5rem">Update</button>' : ''}<button class="record-action btn btn-danger" style="max-width: 5rem; width: 5rem">Delete</button>`
+}
 
+const isValid = {
+    email: (email) => email.includes('@'),
+    id: (id) => {
+        if (id === null || id === '')
+            return false;
 
+        id = Number(id);
 
+        if (isNaN(id))
+            return false;
 
+        if (!Number.isInteger(id))
+            return false;
+
+        return true;
+    }
+}
+
+const confirmation = {
+    deleteBy: {
+        Id: (id) => confirm(`Do you really want to delete User with ID ${id}?`),
+        Email: (email) => confirm(`Do you really want to delete User with Email ${email}?`)
+    }
+}
 
 const dbsActions = {
     users: {
@@ -14,7 +41,7 @@ const dbsActions = {
         getOneByEmail: () => {
             let email = prompt('Users: Enter email');
 
-            if (!email.includes('@'))
+            if (!isValid.email(email))
                 return;
 
             return fetch(`/admin/GetUser`, {
@@ -33,15 +60,7 @@ const dbsActions = {
                 id = prompt('Users: Enter id');
             }
 
-            if (id === null || id === '')
-                return;
-
-            id = Number(id);
-
-            if (isNaN(id))
-                return;
-
-            if (!Number.isInteger(id))
+            if (!isValid.id(id))
                 return;
 
             return fetch(`/admin/GetUser`, {
@@ -55,40 +74,14 @@ const dbsActions = {
                 .then(data => [data])
                 .catch(err => null);
         },
-        updateByEmail: () => {
-            let email = prompt('Users: Enter email');
-
-            if (!email.includes('@'))
-                return;
-
-            // redirect to update page for users ( or make one update page with dynamic fields)
-        },
-        updateById: (id) => {
-            if (!id) {
-                id = prompt('Users: Enter id');
-            }
-
-            if (id === null || id === '')
-                return;
-
-            id = Number(id);
-
-            if (isNaN(id))
-                return;
-
-            if (!Number.isInteger(id))
-                return;
-
-            // redirect to update page for users ( or make one update page with dynamic fields)
-        },
         deleteByEmail: () => {
             let email = prompt('Users: Enter email');
 
-            if (!email.includes('@'))
-                return;
+            if (!isValid.email(email))
+                return false;
 
-            if (!confirm(`Do you really want to delete User with Email ${email}?`))
-                return;
+            if (!confirmation.deleteBy.Email(email))
+                return false;
 
             return fetch(`/admin/DeleteUser`, {
                 method: 'POST',
@@ -105,19 +98,11 @@ const dbsActions = {
                 id = prompt('Users: Enter id');
             }
 
-            if (id === null || id === '')
-                return;
+            if (!isValid.id(id))
+                return false;
 
-            id = Number(id);
-
-            if (isNaN(id))
-                return;
-
-            if (!Number.isInteger(id))
-                return;
-
-            if (!confirm(`Do you really want to delete User with ID ${id}?`))
-                return;
+            if (!confirmation.deleteBy.Id(id))
+                return false;
 
             return fetch(`/admin/DeleteUser`, {
                 method: 'POST',
@@ -142,15 +127,7 @@ const dbsActions = {
                 id = prompt('Dishes: Enter id');
             }
 
-            if (id === null || id === '')
-                return;
-
-            id = Number(id);
-
-            if (isNaN(id))
-                return;
-
-            if (!Number.isInteger(id))
+            if (!isValid.id(id))
                 return;
 
             return fetch(`/admin/GetDish`, {
@@ -173,34 +150,15 @@ const dbsActions = {
                 id = prompt('Dishes: Enter id');
             }
 
-            if (id === null || id === '')
-                return;
-
-            id = Number(id);
-
-            if (isNaN(id))
-                return;
-
-            if (!Number.isInteger(id))
-                return;
-
-            return window.location.pathname = '/dish/update/' + id;
+            if (isValid.id(id))
+                return window.location.pathname = '/dish/update/' + id;
         },
-
         delete: (id) => {
             if (!id) {
                 id = prompt('Dishes: Enter id');
             }
 
-            if (id === null || id === '')
-                return;
-
-            id = Number(id);
-
-            if (isNaN(id))
-                return;
-
-            if (!Number.isInteger(id))
+            if (!isValid.id(id))
                 return false;
 
             if (!confirm(`Do you really want to delete Dish with ID ${id}?`))
@@ -217,36 +175,28 @@ const dbsActions = {
                 .catch(err => null);
         },
 
-    }, // To implement
+    },
     orders: {
         getAll: () => {
-            return fetch('/admin/GetOrders')
+            return fetch('/admin/GetOrdersDetailed')
                 .then(res => res.json())
                 .then(data => data)
                 .catch(err => null);
         },
-        getAllByUserId: () => {
+        getAllByUserId: (id) => {
             if (!id) {
                 id = prompt('Orders: Enter user id');
             }
 
-            if (id === null || id === '')
+            if (!isValid.id(id))
                 return;
 
-            id = Number(id);
-
-            if (isNaN(id))
-                return;
-
-            if (!Number.isInteger(userId))
-                return;
-
-            return fetch('/admin/GetOrders', {
+            return fetch('/admin/GetOrdersDetailed', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'text/plain'
                 },
-                body: userId
+                body: id
             })
                 .then(res => res.json())
                 .then(data => data)
@@ -255,10 +205,10 @@ const dbsActions = {
         getAllByUserEmail: () => {
             let email = prompt('Orders: Enter user email');
 
-            if (!email.includes('@'))
+            if (!isValid.email(email))
                 return;
 
-            return fetch('/admin/GetOrders', {
+            return fetch('/admin/GetOrdersDetailed', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'text/plain'
@@ -274,18 +224,10 @@ const dbsActions = {
                 id = prompt('Orders: Enter id');
             }
 
-            if (id === null || id === '')
+            if (!isValid.id(id))
                 return;
 
-            id = Number(id);
-
-            if (isNaN(id))
-                return;
-
-            if (!Number.isInteger(id))
-                return;
-
-            return fetch('/admin/GetOrder', {
+            return fetch('/admin/GetOrderDetailed', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'text/plain'
@@ -300,13 +242,10 @@ const dbsActions = {
             if (!id)
                 id = Number(prompt('Orders: Enter id'));
 
-            if (isNaN(id))
+            if (!isValid.id(id))
                 return false;
 
-            if (!Number.isInteger(id))
-                return false;
-
-            if (!confirm(`Do you really want to delete Order with ID ${id}?`))
+            if (!confirmation.deleteBy.Id(id))
                 return false;
 
             return fetch(`/admin/DeleteOrder`, {
@@ -423,9 +362,4 @@ function clearResults() {
     resultElement.innerHTML = '';
 }
 
-const renderElements = {
-    th: (data) => `<th>${data}</th>`,
-    td: (data) => `<td>${data}</td>`,
-    tr: (data) => `<tr>${data}</tr>`,
-    actionButtons: (renderUpdate = true) => `${renderUpdate ? '<button class="record-action btn btn-warning" style="max-width: 5rem; width: 5rem">Update</button>' : ''}<button class="record-action btn btn-danger" style="max-width: 5rem; width: 5rem">Delete</button>`
-}
+
