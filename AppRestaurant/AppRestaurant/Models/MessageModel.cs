@@ -25,7 +25,7 @@
             Message = message;
         }
 
-        public string alertCode
+        public string AlertCode
         {
             get
             {
