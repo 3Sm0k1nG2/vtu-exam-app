@@ -1,7 +1,6 @@
 ﻿using AppRestaurant.Models;
 using AppRestaurant.Models.Forms;
 using Microsoft.Data.SqlClient;
-using System.Data.SqlTypes;
 
 namespace AppRestaurant.Data
 {
@@ -25,7 +24,7 @@ namespace AppRestaurant.Data
                     using (SqlConnection connection = new SqlConnection(sqlConnectionStringBuilder.ConnectionString))
                     {
                         connection.Open();
-                        String sqlQuery = "SELECT COUNT(*) FROM Address";
+                        String sqlQuery = "SELECT COUNT(*) FROM Addresses";
 
                         using (SqlCommand cmd = new SqlCommand(sqlQuery, connection))
                         {
@@ -111,14 +110,14 @@ namespace AppRestaurant.Data
             }
         }
 
-        public AddressModel Get(int id)
+        public AddressModel? GetOne(int id)
         {
             try
             {
                 using (SqlConnection connection = new SqlConnection(sqlBuilder.ConnectionString))
                 {
                     connection.Open();
-                    String sqlQuery = @"SELECT Id, OrderId, Address, City, PostCode, Phone FROM Addresses
+                    String sqlQuery = @"SELECT Street, City, PostCode, Phone FROM Addresses
                         WHERE ID = @id";
 
                     using (SqlCommand cmd = new SqlCommand(sqlQuery, connection))
@@ -131,7 +130,8 @@ namespace AppRestaurant.Data
                                 AddressModel model = new AddressModel(id,
                                     reader.GetString(0),
                                     reader.GetString(1),
-                                    reader.GetString(2)
+                                    reader.GetString(2),
+                                    reader.GetString(3)
                                     );
 
                                 return model;

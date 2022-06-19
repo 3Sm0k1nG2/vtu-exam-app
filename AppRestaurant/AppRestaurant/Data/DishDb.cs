@@ -4,7 +4,7 @@ using System.Data.SqlTypes;
 
 namespace AppRestaurant.Data
 {
-    public class DishesDb : DbContext
+    public class DishDb : DbContext
     {
         public DishModel? GetOne(int id)
         {
@@ -42,6 +42,44 @@ namespace AppRestaurant.Data
                                     imgUrl);
 
                                 return model;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+
+            return null;
+        }
+
+        public string? GetOneName(int id)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    connection.Open();
+                    String sqlQuery = @"SELECT Name FROM Dishes
+                        WHERE ID = @id";
+
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, connection))
+                    {
+                        cmd.Parameters.AddWithValue("id", id);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                try
+                                {
+                                    return reader.GetString(0);
+                                }
+                                catch (SqlNullValueException)
+                                {
+                                    return null;
+                                }
                             }
                         }
                     }
@@ -225,38 +263,6 @@ namespace AppRestaurant.Data
             }
         }
 
-        public void Update(DishModel oldModel, DishModel newModel)
-        {
-            try
-            {
-                using (SqlConnection connection = new SqlConnection(sqlBuilder.ConnectionString))
-                {
-                    connection.Open();
-
-                    String sqlQuery = @"UPDATE Dishes
-                    SET Name=@newName, Grams=@newGrams, Price=@newPrice, Description=@newDescription, ImageUrl=@newImgUrl
-                    WHERE ID=@id";
-
-                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
-                    {
-                        command.Parameters.AddWithValue("newName", newModel.Name);
-                        command.Parameters.AddWithValue("newGrams", newModel.Grams);
-                        command.Parameters.AddWithValue("newPrice", newModel.Price);
-                        command.Parameters.AddWithValue("newDescription", newModel.Description);
-                        command.Parameters.AddWithValue("newImgUrl", newModel.ImageUrl);
-
-                        command.Parameters.AddWithValue("id", oldModel.Id);
-
-                        command.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (SqlException e)
-            {
-                Console.WriteLine(e.ToString());
-            }
-        }
-
         public void Update(int id, DishModel newModel)
         {
             try
@@ -278,6 +284,38 @@ namespace AppRestaurant.Data
                         command.Parameters.AddWithValue("newImgUrl", newModel.ImageUrl);
 
                         command.Parameters.AddWithValue("id", id);
+
+                        command.ExecuteNonQuery();
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+        }
+
+        public void Update(DishModel newModel)
+        {
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    connection.Open();
+
+                    String sqlQuery = @"UPDATE Dishes
+                    SET Name=@newName, Grams=@newGrams, Price=@newPrice, Description=@newDescription, ImageUrl=@newImgUrl
+                    WHERE ID=@id";
+
+                    using (SqlCommand command = new SqlCommand(sqlQuery, connection))
+                    {
+                        command.Parameters.AddWithValue("newName", newModel.Name);
+                        command.Parameters.AddWithValue("newGrams", newModel.Grams);
+                        command.Parameters.AddWithValue("newPrice", newModel.Price);
+                        command.Parameters.AddWithValue("newDescription", newModel.Description);
+                        command.Parameters.AddWithValue("newImgUrl", newModel.ImageUrl);
+
+                        command.Parameters.AddWithValue("id", newModel.Id);
 
                         command.ExecuteNonQuery();
                     }

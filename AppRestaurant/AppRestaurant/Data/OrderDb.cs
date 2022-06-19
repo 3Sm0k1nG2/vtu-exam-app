@@ -1,13 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using AppRestaurant.Models;
+﻿using AppRestaurant.Models;
 using Microsoft.Data.SqlClient;
-using System.Data.SqlTypes;
 using System.Text;
-using AppRestaurant.Models.NewFolder;
 
 namespace AppRestaurant.Data
 {
-    public class OrdersDB : DbContext
+    public class OrderDb : DbContext
     {
         // To Implement
 
@@ -107,10 +104,9 @@ namespace AppRestaurant.Data
                 Console.WriteLine(e.ToString());
             }
         }
-        public List<OrderModel> GetAll(FilterModel? filters)
+        public List<OrderModel> GetAll(int? userId)
         {
             List<OrderModel> orders =  new List<OrderModel>();
-            int? userId = null;
 
             try
             {
@@ -119,20 +115,10 @@ namespace AppRestaurant.Data
                     connection.Open();
                     StringBuilder sqlQuery = new StringBuilder("SELECT Id, UserId, AddressId, DishesIdsAsStr, TimePurchased, Status, Cost FROM Orders");
                     
-                    if(filters != null) 
+                    if(userId != null) 
                     {
-                        if (filters.Id != null) 
-                        {
-                            userId = filters.Id;
-                        }
-                        else if (filters.Email != null)
-                        {
-                            UsersDB usersDb = new UsersDB();
-                            userId = usersDb.GetId(filters.Email);
-                        }
-
                         if (userId == -1)
-                            return orders;
+                            return null;
 
                         sqlQuery.Append(" WHERE UserId=@userId");
                     }
@@ -182,6 +168,87 @@ namespace AppRestaurant.Data
             return orders;
         }
 
+        public List<OrderDetailedModel> GetAllDetailed(int? userId)
+        {
+            List<OrderDetailedModel> orders = new List<OrderDetailedModel>();
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    connection.Open();
+                    StringBuilder sqlQuery = new StringBuilder(
+                        @"SELECT
+                             [Orders].Id
+		                    ,[Addresses].Street
+		                    ,[Addresses].Phone
+		                    ,[Users].Email
+		                    ,[DishesIdsAsStr]
+		                    ,[TimePurchased]
+		                    ,[Status]
+		                    ,[Cost]
+                          FROM [ExamDB].[dbo].[Orders]
+                          LEFT JOIN Addresses
+                          ON Orders.AddressId = Addresses.ID
+                          LEFT JOIN Users
+                          ON Orders.UserId = Users.ID"
+                    );
+
+                    if (userId != null)
+                    {
+                        if (userId == -1)
+                            return null;
+
+                        sqlQuery.Append(" WHERE UserId=@userId");
+                    }
+
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery.ToString(), connection))
+                    {
+                        if (userId != null)
+                            cmd.Parameters.AddWithValue("userId", userId);
+
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                OrderDetailedModel model;
+
+                                if (reader.GetString(6) == "successful")
+                                {
+                                    model = new OrderDetailedModel(reader.GetInt32(0),
+                                        reader.GetString(1),
+                                        reader.GetString(2),
+                                        reader.GetString(3),
+                                        reader.GetString(4),
+                                        reader.GetDateTime(5),
+                                        reader.GetString(6),
+                                        reader.GetDecimal(7)
+                                    );
+                                }
+                                else
+                                {
+                                    model = new OrderDetailedModel(reader.GetInt32(0),
+                                        reader.GetString(3),
+                                        reader.GetString(4),
+                                        reader.GetString(6),
+                                        reader.GetDecimal(7)
+                                    );
+                                }
+
+                                orders.Add(model);
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+
+            return orders;
+        }
+
         public OrderModel GetOne(int id)
         {
             OrderModel? model = null;
@@ -201,8 +268,6 @@ namespace AppRestaurant.Data
                         {
                             while (reader.Read())
                             {
-                                
-
                                 if (reader.GetString(5) == "successful")
                                 {
                                     return model = new OrderModel(id,
@@ -236,7 +301,77 @@ namespace AppRestaurant.Data
             return model;
         }
 
-        public void Update(OrderModel model)
+        public OrderDetailedModel GetOneDetailed(int orderId)
+        {
+            OrderDetailedModel? model = null;
+
+            try
+            {
+                using (SqlConnection connection = new SqlConnection(sqlBuilder.ConnectionString))
+                {
+                    connection.Open();
+                    string sqlQuery = new StringBuilder(
+                        @"SELECT
+                             [Orders].Id
+		                    ,[Addresses].Street
+		                    ,[Addresses].Phone
+		                    ,[Users].Email
+		                    ,[DishesIdsAsStr]
+		                    ,[TimePurchased]
+		                    ,[Status]
+		                    ,[Cost]
+                          FROM [ExamDB].[dbo].[Orders]
+                          LEFT JOIN Addresses
+                          ON Orders.AddressId = Addresses.ID
+                          LEFT JOIN Users
+                          ON Orders.UserId = Users.ID
+                          WHERE [Orders].Id=@orderId"
+                    ).ToString();
+
+                    using (SqlCommand cmd = new SqlCommand(sqlQuery, connection))
+                    {
+                        cmd.Parameters.AddWithValue("orderId", orderId);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                if (reader.GetString(6) == "successful")
+                                {
+                                    model = new OrderDetailedModel(reader.GetInt32(0),
+                                        reader.GetString(1),
+                                        reader.GetString(2),
+                                        reader.GetString(3),
+                                        reader.GetString(4),
+                                        reader.GetDateTime(5),
+                                        reader.GetString(6),
+                                        reader.GetDecimal(7)
+                                    );
+                                }
+                                else
+                                {
+                                    model = new OrderDetailedModel(reader.GetInt32(0),
+                                        reader.GetString(3),
+                                        reader.GetString(4),
+                                        reader.GetString(6),
+                                        reader.GetDecimal(7)
+                                    );
+                                }
+
+                                return model;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (SqlException e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+
+            return model;
+        }
+
+        public void PatchAddressFinal(OrderModel model)
         {
             try
             {
@@ -265,7 +400,7 @@ namespace AppRestaurant.Data
 
         }
 
-        public bool Delete(int id)
+        public bool DeleteOne(int id)
         {
             try
             {

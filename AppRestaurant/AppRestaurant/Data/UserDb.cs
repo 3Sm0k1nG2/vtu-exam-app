@@ -5,9 +5,9 @@ using System.Data.SqlTypes;
 
 namespace AppRestaurant.Data
 {
-    public class UsersDB : DbContext
+    public class UserDb : DbContext
     {
-        public UserModel Connect(UserModel formModel)
+        public UserModel Login(string email, string password)
         {
             UserModel? model = null;
             try
@@ -20,8 +20,8 @@ namespace AppRestaurant.Data
 
                     using (SqlCommand command = new SqlCommand(sqlQuery, connection))
                     {
-                        command.Parameters.AddWithValue("email", formModel.Email);
-                        command.Parameters.AddWithValue("password", formModel.Password);
+                        command.Parameters.AddWithValue("email", email);
+                        command.Parameters.AddWithValue("password", password);
 
                         using (SqlDataReader reader = command.ExecuteReader())
                         {
@@ -261,7 +261,7 @@ namespace AppRestaurant.Data
             return model;
         }
 
-        public void Add(UserModel model)
+        public void Create(UserModel model)
         {
             try
             {
