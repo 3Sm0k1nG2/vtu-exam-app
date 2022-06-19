@@ -3,13 +3,7 @@ using AppRestaurant.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 
-using System.Diagnostics;
-using AppRestaurant.Models.NewFolder;
-
-// user is able to make request to other properties. Index blocks only for itself
-// cheated solution, return nothing is user is not admin,
-// but u don't get response from server
-// => indicates that there is something behind this url request.
+using AppRestaurant.Services;
 
 namespace AppRestaurant.Controllers
 {
@@ -126,10 +120,9 @@ namespace AppRestaurant.Controllers
             }
         }
 
-        // To implement
         // Orders CRUD
 
-        public List<OrderModel> GetOrders() 
+        public List<OrderDetailedModel>? GetOrdersDetailed()
         {
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return null;
@@ -152,7 +145,7 @@ namespace AppRestaurant.Controllers
 
             return orders;
         }
-        public OrderModel GetOrder() 
+        public OrderDetailedModel? GetOrderDetailed()
         {
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return null;
