@@ -383,7 +383,7 @@ function renderResults(keys, data, renderUpdate) {
 
     resultElement.innerHTML = `
         <table class="table">
-            <thead>
+            <thead class="sticky bg-light">
                 <tr> ${keys.map(x => renderElements.th(x)).join('')}</tr>
             </thead>
             <tbody>

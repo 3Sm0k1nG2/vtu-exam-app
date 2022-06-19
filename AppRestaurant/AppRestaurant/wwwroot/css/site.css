@@ -16,3 +16,9 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+.sticky {
+    position: -webkit-sticky; /* Safari */
+    position: sticky;
+    top: 0;
+}
