@@ -2,6 +2,7 @@
 using AppRestaurant.Data;
 using AppRestaurant.Models;
 using AppRestaurant.Models.Forms;
+using AppRestaurant.Services;
 
 namespace AppRestaurant.Controllers.Menu
 {
@@ -18,35 +19,37 @@ namespace AppRestaurant.Controllers.Menu
             return View("Create", model);
         }
 
-        [HttpGet]
-        public IActionResult Update(int id)
-        {
-            if (HttpContext.Session.GetString("isAdmin") != "true")
-                return NotFound();
-
-            DishesDb db = new DishesDb();
-            DishModel? model = db.GetOne(id);
-
-            if (model == null)
-            {
-                return Redirect("/menu");
-            }
-
-            return View("Update", model);
-        }
-
         [HttpPost]
         public IActionResult Create([FromForm] DishFormDataModel formData)
         {
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return NotFound();
 
-            DishesDb db = new DishesDb();
-            DishModel model = new DishModel(formData);
-            db.Create(model);
+            new DishService().Create(formData);
 
             return Redirect("/menu");
         }
+
+        [HttpGet]
+        public IActionResult Update(int id)
+        {
+            if (HttpContext.Session.GetString("isAdmin") != "true")
+                return NotFound();
+
+            DishModel? model = new DishService().GetOne(id);
+
+            HttpContext.Session.Remove("updateFormId");
+
+            if (model == null)
+            {
+                return Redirect("/menu");
+            }
+
+            HttpContext.Session.SetInt32("updateFormId", model.Id);
+
+            return View("Update", model);
+        }
+
 
         [HttpPost]
         public IActionResult Update([FromForm] DishFormDataModel formData)
@@ -54,9 +57,16 @@ namespace AppRestaurant.Controllers.Menu
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return NotFound();
 
-            DishesDb db = new DishesDb();
-            DishModel model = new DishModel(formData);
-            db.Update(formData.Id, model);
+            int? nullTest = HttpContext.Session.GetInt32("updateFormId");
+
+            if (nullTest == null)
+                return NotFound();
+
+            int dishId = (int)nullTest;
+
+            HttpContext.Session.Remove("updateFormId");
+
+            new DishService().Update(dishId, formData);
 
             return Redirect("/menu");
         }

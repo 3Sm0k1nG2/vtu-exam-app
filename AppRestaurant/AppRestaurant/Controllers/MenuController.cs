@@ -2,6 +2,7 @@
 using AppRestaurant.Data;
 using AppRestaurant.Models;
 using System.Dynamic;
+using AppRestaurant.Services;
 
 namespace AppRestaurant.Controllers
 {
@@ -10,17 +11,17 @@ namespace AppRestaurant.Controllers
         public IActionResult Index([FromQuery] string query)
         {
             dynamic model = new ExpandoObject();
-            DishesDb db = new DishesDb();
+            DishService dishService = new DishService();
             List<DishModel>? models;
 
             if (query != null)
             {
-                models = db.GetAll(query);
+                models = dishService.GetAll(query);
                 model.prevQuery = query;
             }
             else
             {
-                models = db.GetAll();
+                models = dishService.GetAll();
                 model.prevQuery = "";
             }
 
@@ -34,12 +35,11 @@ namespace AppRestaurant.Controllers
 
         public IActionResult Details(int id)
         {
-            DishesDb dishesDb = new DishesDb();
-            DishModel? model = dishesDb.GetOne(id);
+            DishModel? model = new DishService().GetOne(id);
 
             if (model == null)
             {
-                return View("Index");
+                return Redirect("/menu");
             }
 
             return View(model);

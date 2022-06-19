@@ -57,7 +57,6 @@ namespace AppRestaurant.Controllers
 
             UserService userService = new UserService();
 
-            int id;
             string email = new StreamReader(Request.Body).ReadToEndAsync().Result;
             if (email == null)
                 return;
@@ -75,44 +74,34 @@ namespace AppRestaurant.Controllers
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return null;
 
-            DishesDb dishesDb = new DishesDb();
-            List<DishModel>? dishes = dishesDb.GetAll();
-
-            return dishes;
+            return new DishService().GetAll();
         }
 
-        public DishModel GetDish()
+        public DishModel? GetDish()
         {
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return null;
 
-            DishesDb dishesDb = new DishesDb();
-            DishModel? dish = null;
-
             int id;
             string result = new StreamReader(Request.Body).ReadToEndAsync().Result;
 
-            if (int.TryParse(result, out id))
-            {
-                dish = dishesDb.GetOne(id);
-            }
+            if (!int.TryParse(result, out id))
+                return null;
 
-            return dish;
+            return new DishService().GetOne(id);
         }
         public void DeleteDish()
         {
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return;
 
-            DishesDb dishesDb = new DishesDb();
-
             int id;
             string result = new StreamReader(Request.Body).ReadToEndAsync().Result;
 
-            if (int.TryParse(result, out id))
-            {
-                dishesDb.Delete(id);
-            }
+            if (!int.TryParse(result, out id))
+                return;
+
+            new DishService().Delete(id);
         }
 
         // Orders CRUD
