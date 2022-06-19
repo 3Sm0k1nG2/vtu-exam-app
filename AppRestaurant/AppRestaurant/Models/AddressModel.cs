@@ -8,12 +8,13 @@
             City = city;
             PostCode = postCode;
         }
-        public AddressModel(int id, string street, string city, string postCode)
+        public AddressModel(int id, string street, string city, string postCode, string phone)
         {
             Id = id;
             Street = street;
             City = city;
             PostCode = postCode;
+            Phone = phone;
         }
 
         public int Id { get; set; }
