@@ -8,13 +8,19 @@ namespace AppRestaurant.Models
         private string password;
         protected bool isAuthorized;
 
-        // Registering a user
+        // Login a user
         public UserModel(string email, string password)
         {
             Email = email;
             Password = password;
         }
+        public UserModel(UserFormDataModel.LoginModel formModel)
+        {
+            Email = formModel.Email;
+            Password = formModel.Password; ;
+        }
 
+        // Registering a user
         public UserModel(string nickname, string email, string password)
         {
             Nickname = nickname;
@@ -22,7 +28,14 @@ namespace AppRestaurant.Models
             Password = password;
         }
 
-        // Returning user from DB
+        public UserModel(UserFormDataModel.RegModel formModel)
+        {
+            Nickname = formModel.Nickname;
+            Email = formModel.Email;
+            Password = formModel.Password;
+        }
+
+        // Returning user from DB 
         public UserModel(int id, string email)
         {
             Id = id;
@@ -34,19 +47,6 @@ namespace AppRestaurant.Models
             Id = id;
             Nickname = nickname;
             Email = email;
-        }
-
-        public UserModel(UserFormDataModel.LoginModel model)
-        {
-            Email = model.Email;
-            Password = model.Password;
-        }
-
-        public UserModel(UserFormDataModel.RegModel model)
-        {
-            Nickname = model.Nickname;
-            Email = model.Email;
-            Password = model.Password;
         }
 
         public int Id { get; set; }
