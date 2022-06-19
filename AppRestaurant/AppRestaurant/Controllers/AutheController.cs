@@ -2,6 +2,7 @@
 using AppRestaurant.Data;
 using AppRestaurant.Models;
 using AppRestaurant.Models.Forms;
+using AppRestaurant.Services;
 
 namespace AppRestaurant.Controllers
 {
@@ -16,28 +17,26 @@ namespace AppRestaurant.Controllers
                 return Redirect("/login");
             }
 
-            UsersDB userDB = new UsersDB();
-            UserModel model = new UserModel(formData);
-            model = userDB.Connect(model);
+            UserModel user = new UserService().Login(formData);
 
-            if (model == null)
+            if (user == null)
             {
                 TempData["status"] = "wrong-credentials";
                 return Redirect("/login");
             }
 
+            string nickname;
 
-            String nickname;
-
-            if (model.Nickname == null)
-                nickname = model.Email.Split("@")[0];
+            if (user.Nickname == null)
+                nickname = user.Email.Split("@")[0];
             else
-                nickname = model.Nickname;
+                nickname = user.Nickname;
 
+            HttpContext.Session.SetInt32("userId", user.Id);
             HttpContext.Session.SetString("Nickname", nickname);
-            HttpContext.Session.SetString("Email", model.Email);
+            HttpContext.Session.SetString("Email", user.Email);
 
-            if (AdminController.isAdmin(model.Email))
+            if (AdminController.isAdmin(user.Email))
                 HttpContext.Session.SetString("isAdmin", "true");
             else
                 HttpContext.Session.SetString("isAdmin", "false");
@@ -61,22 +60,15 @@ namespace AppRestaurant.Controllers
                 return Redirect("/register");
             }
 
-            UsersDB userDB = new UsersDB();
+            UserService userService = new UserService();
 
-            if (userDB.Exists(formData.Email))
+            if (userService.Exists(formData.Email))
             {
                 TempData["status"] = "existing";
                 return Redirect("/login");
             }
 
-            UserModel model;
-
-            if (formData.Nickname != null)
-                model = new UserModel(formData);
-            else
-                model = new UserModel(formData);
-
-            userDB.Add(model);
+            userService.Create(formData);
             TempData["status"] = "success";
 
             return Redirect("/login");
@@ -87,6 +79,9 @@ namespace AppRestaurant.Controllers
             HttpContext.Session.Remove("isAdmin");
             HttpContext.Session.Remove("Nickname");
             HttpContext.Session.Remove("Email");
+            HttpContext.Session.Remove("userId");
+            HttpContext.Session.Remove("isEmptyCart");
+            HttpContext.Session.Remove("updateFormId");
 
             return Redirect("/");
         }

@@ -30,32 +30,24 @@ namespace AppRestaurant.Controllers
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return null;
 
-            dynamic models = new ExpandoObject();
-
-            UsersDB usersDB = new UsersDB();
-            List<UserModel> users = usersDB.GetAll();
-
-            return users;
+            return new UserService().GetAll(); ;
         }
-        public UserModel GetUser()
+        public UserModel? GetUser()
         {
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return null;
 
-            UsersDB usersDB = new UsersDB();
-            UserModel? user;
+            string email = new StreamReader(Request.Body).ReadToEndAsync().Result;
+            if (email == null)
+                return null;
+
+            UserService userService = new UserService();
 
             int id;
-            string email = new StreamReader(Request.Body).ReadToEndAsync().Result;
-
             if (int.TryParse(email, out id))
-            {
-                user = usersDB.GetOne(id);
-                return user;
-            }
+                return userService.GetOne(id);
 
-            user = usersDB.GetOne(email);
-            return user;
+            return userService.GetOne(email);
         }
 
         public void DeleteUser()
@@ -63,15 +55,18 @@ namespace AppRestaurant.Controllers
             if (HttpContext.Session.GetString("isAdmin") != "true")
                 return;
 
-            UsersDB usersDB = new UsersDB();
+            UserService userService = new UserService();
 
             int id;
             string email = new StreamReader(Request.Body).ReadToEndAsync().Result;
+            if (email == null)
+                return;
 
+            int id;
             if (int.TryParse(email, out id))
-                usersDB.Delete(id);
+                userService.Delete(id);
             else
-                usersDB.Delete(email);
+                userService.Delete(email);
         }
 
         // Dishes CRUD
